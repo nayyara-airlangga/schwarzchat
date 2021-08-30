@@ -26,7 +26,7 @@ a {
   z-index: 1;
   padding: 8px 20px;
   color: #fff;
-  position: absolute;
+  position: fixed;
   top: 0;
   display: inline-block;
   width: 100%;

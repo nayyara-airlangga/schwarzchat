@@ -84,7 +84,9 @@ const Home = () => {
         {isUser ? (
           <>
             <div className="header">
-              <div className="logo">SC</div>
+              <div className="logo">
+                <a href="/">SC</a>
+              </div>
               <button className="signout-button" onClick={signOut}>
                 Sign Out
               </button>
