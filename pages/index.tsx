@@ -20,6 +20,7 @@ const firebaseConfig = {
 };
 
 // Checks if app is already initialized
+
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 } else {
