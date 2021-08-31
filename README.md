@@ -1,6 +1,8 @@
 # SchwarzChat
 
-A chat room web app made by using Next and Typescript. It's still incomplete.
+## What's this?
+
+SchwarzChat is a chat room web app made using Next and Firebase. You can chat, send emojis, and talk with random people who joins. It's a free-to-use, free-for-fall chat room. This project exists as a task project for the time being.
 
 ## Features
 
