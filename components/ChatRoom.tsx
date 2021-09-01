@@ -8,6 +8,9 @@ import {
 import firebase from "firebase";
 import "firebase/firestore";
 import Chat from "./Chat";
+import Message from "./Message";
+import jQuery from "jquery";
+import ChatForm from "./ChatForm";
 
 const ChatRoom = (props: {
   db: firebase.firestore.Firestore;
@@ -28,18 +31,58 @@ const ChatRoom = (props: {
 
   // The submit handler that will be triggered when the user sends a message
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     // Sends the sent message to the firestore message database of the app
 
-    db.collection("messages").add({
-      message: newMessage,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      displayName,
-      photoURL,
-    });
+    // Checks if the message length is empty
+    if (newMessage.length !== 0)
+      await db.collection("messages").add(
+        Object({
+          contentType: "",
+          message: newMessage,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          uid,
+          displayName,
+          photoURL,
+        })
+      );
+    else {
+      // If the message type is a file
+
+      let timestamp = Number(new Date());
+      let storageRef: firebase.storage.Reference = firebase
+        .storage()
+        .ref(timestamp.toString());
+
+      let $ = jQuery;
+      let file_data: any = $("#file-input").prop("files")[0];
+
+      await storageRef.put(file_data);
+      firebase
+        .storage()
+        .refFromURL(`gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`)
+        .getDownloadURL()
+        .then((url: string) => {
+          const urlData = firebase
+            .storage()
+            .refFromURL(`gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`)
+            .getMetadata()
+            .then((urlData: any) => {
+              db.collection("messages").add(
+                Object({
+                  contentType: urlData.contentType,
+                  message: url,
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                  uid,
+                  displayName,
+                  photoURL,
+                })
+              );
+            });
+        });
+    }
 
     // Deletes/empty out the input value after the message is sent
 
@@ -80,7 +123,7 @@ const ChatRoom = (props: {
   return (
     <main id="chat-room">
       <ul>
-        {messages.map((message: any) => (
+        {messages.map((message: Message) => (
           // Renders a chat for every chat in the messages database
 
           <>
@@ -90,18 +133,12 @@ const ChatRoom = (props: {
           </>
         ))}
       </ul>
+      <ChatForm
+        stateFunc={setNewMessage}
+        onSubmit={handleSubmit}
+        inputMessage={newMessage}
+      />
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(event) => setNewMessage(event.target.value)}
-          placeholder="Type your message"
-        />
-        <button type="submit" disabled={!newMessage}>
-          Send
-        </button>
-      </form>
       <section ref={scrollSpace}></section>
     </main>
   );

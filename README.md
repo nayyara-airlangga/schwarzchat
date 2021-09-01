@@ -10,10 +10,12 @@ SchwarzChat is a chat room web app made using Next and Firebase. You can chat, s
 - Text Messaging
 - Message Timestamp
 - Message History
+- File Type Messages (e.g. images, PDFs, .txt, etc.)
+- URLs
 
 ## Features to be added
 
-- File Type Messages
+-
 
 ## Prerequisites
 

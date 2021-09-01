@@ -71,11 +71,7 @@ const Home = () => {
           href="Schwarzchat-modified.png"
           type="image/x-icon"
         />
-        <link
-          href="https://www.fontzip.com/storage/2015/04/09/bukhari-script/webfonts/Bukhari Script.css"
-          rel="stylesheet"
-        />
-
+       
         <title>SchwarzChat</title>
       </Head>
       <div className="container">

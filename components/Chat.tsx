@@ -1,9 +1,10 @@
 import { formatRelative } from "date-fns";
 import chatStyles from "./chat.module.css";
+import Message from "./Message";
 
 // Chat component
 
-const Chat = (props: { message: any; userId: any }) => (
+const Chat = (props: { message: Message; userId: string }) => (
   <li
     key={props.message.id}
     className={props.message.uid === props.userId ? "sent" : "received"}
@@ -33,7 +34,34 @@ const Chat = (props: { message: any; userId: any }) => (
       <br />
       {/* Display user name */}
 
-      <section className={chatStyles.message}>{props.message.message}</section>
+      <section className={chatStyles.message}>
+        {/* File type filtering */}
+
+        {props.message.message.startsWith("http") ? (
+          props.message.contentType?.startsWith("image") ? (
+            <img
+              className="file-img"
+              src={props.message.message}
+              alt="img"
+              width={100}
+              height={100}
+            />
+          ) : props.message.contentType?.startsWith("application") ||
+            props.message.contentType?.startsWith("text") ? (
+            <iframe
+              src={props.message.message}
+              frameBorder="0"
+              scrolling="auto"
+              height="100%"
+              width="100%"
+            />
+          ) : (
+            <a href={props.message.message}>{props.message.message}</a>
+          )
+        ) : (
+          props.message.message
+        )}
+      </section>
       <br />
 
       {/* Display the time when the messages was sent */}
@@ -49,5 +77,4 @@ const Chat = (props: { message: any; userId: any }) => (
     </div>
   </li>
 );
-
 export default Chat;
