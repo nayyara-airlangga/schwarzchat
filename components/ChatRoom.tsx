@@ -49,27 +49,42 @@ const ChatRoom = (props: {
         })
       );
     else {
-      // If the message type is a file
+      /* If the message type is a file, we set a timestamp and a reference
+         to the app's storage */
 
       let timestamp = Number(new Date());
       let storageRef: firebase.storage.Reference = firebase
         .storage()
         .ref(timestamp.toString());
 
+      // I use jQuery to make it easier to access the DOM elements and file
+
       let $ = jQuery;
       let file_data: any = $("#file-input").prop("files")[0];
 
+      // Push data to firebase storage\
+
       await storageRef.put(file_data);
+
+      // Get the reference ad the url of the file we uploaded earlier
+
       firebase
         .storage()
         .refFromURL(`gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`)
         .getDownloadURL()
         .then((url: string) => {
+
+          // Get metadata of the file to check its type
+
           const urlData = firebase
             .storage()
             .refFromURL(`gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`)
             .getMetadata()
             .then((urlData: any) => {
+
+              /* Send the file we uploaded to the storage back and push it in 
+                 to the messages database as a message*/
+
               db.collection("messages").add(
                 Object({
                   contentType: urlData.contentType,

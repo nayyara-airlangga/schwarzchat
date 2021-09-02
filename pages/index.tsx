@@ -5,7 +5,7 @@ import "firebase/firestore";
 import Head from "next/head";
 import Image from "next/image";
 import ChatRoom from "../components/ChatRoom";
-import config from "../components/config";
+import config from "../config";
 
 // Firebase app configurations
 
@@ -71,7 +71,7 @@ const Home = () => {
           href="Schwarzchat-modified.png"
           type="image/x-icon"
         />
-       
+
         <title>SchwarzChat</title>
       </Head>
       <div className="container">

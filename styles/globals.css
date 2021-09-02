@@ -166,6 +166,7 @@ form #file-input::-webkit-file-upload-button {
   margin: 0;
   cursor: pointer;
   font-size: 0.7rem;
+  color: white;
 }
 
 form .text-input {
@@ -190,6 +191,7 @@ form button {
   border-radius: 40px;
   font-size: 1.2rem;
   background-color: #ff4c29;
+  border-color: transparent;
   width: 20%;
   position: fixed;
   bottom: 15px;
@@ -288,6 +290,18 @@ li.received {
     color: transparent;
   }
 
+  #file-input::before {
+    content: "Add File";
+    outline: none;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    left: 30%;
+    margin: 0 auto;
+    cursor: pointer;
+    font-size: 0.7rem;
+  }
+
   form .text-input {
     position: fixed;
     left: 15%;
@@ -299,6 +313,12 @@ li.received {
 }
 
 @media screen and (max-width: 800px) {
+  #file-input::before {
+    position: relative;
+    left: 15%;
+    bottom: 10%;
+  }
+
   .sent,
   .received {
     width: 90%;
@@ -322,6 +342,11 @@ li.received {
 }
 
 @media screen and (max-width: 540px) {
+  #file-input::before {
+    position: relative;
+    left: 5%;
+  }
+
   .sent,
   .received {
     width: 100%;
@@ -370,6 +395,12 @@ li.received {
     left: 10px;
     width: 15%;
   }
+
+  #file-input::before{
+    position: relative;
+    left: 4%;
+  }
+  
   form .text-input {
     width: 64%;
     position: fixed;
@@ -389,6 +420,11 @@ li.received {
   .sent {
     position: relative;
     left: 10%;
+  }
+
+  #file-input::before {
+    position: relative;
+    right: 2%;
   }
 
   form button {
@@ -427,12 +463,18 @@ li.received {
   form button {
     position: fixed;
     right: 10px;
+    width: 20%;
   }
 
   form #file-input {
     position: fixed;
     left: 10px;
     width: 20%;
+  }
+
+  #file-input::before {
+    position: relative;
+    left: 10%;
   }
 
   form .text-input {
