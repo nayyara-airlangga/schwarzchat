@@ -3,7 +3,8 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import Head from "next/head";
-import ChatScreen from "./chatScreen";
+import ChatHeader from "../components/ChatHeader";
+import ChatRoom from "../components/ChatRoom";
 import SignInScreen from "./signInScreen";
 import config from "../config";
 
@@ -78,7 +79,10 @@ const Home = () => {
         {/* Checks if user is logged in or not */}
 
         {isUser ? (
-          <ChatScreen onClick={signOut} user={isUser} db={db} />
+          <>
+            <ChatHeader onClick={signOut} />
+            <ChatRoom user={isUser} db={db} />
+          </>
         ) : (
           <SignInScreen onClick={signInwithGoogle} />
         )}
