@@ -3,8 +3,8 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import Head from "next/head";
-import Image from "next/image";
-import ChatRoom from "../components/ChatRoom";
+import ChatScreen from "./chatScreen";
+import SignInScreen from "./signInScreen";
 import config from "../config";
 
 // Firebase app configurations
@@ -78,31 +78,9 @@ const Home = () => {
         {/* Checks if user is logged in or not */}
 
         {isUser ? (
-          <>
-            <div className="header">
-              <div className="logo">
-                <a href="/">SC</a>
-              </div>
-              <button className="signout-button" onClick={signOut}>
-                Sign Out
-              </button>
-            </div>
-            <ChatRoom user={isUser} db={db} />
-          </>
+          <ChatScreen onClick={signOut} user={isUser} db={db} />
         ) : (
-          <section id="sign-in">
-            <Image
-              src="/Schwarzchat-modified.png"
-              alt="logo"
-              width={240}
-              height={240}
-            />
-            <br />
-            <br />
-            <button onClick={signInwithGoogle}>
-              Sign Up and Login with Google
-            </button>
-          </section>
+          <SignInScreen onClick={signInwithGoogle} />
         )}
       </div>
     </>

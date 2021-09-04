@@ -62,41 +62,44 @@ const ChatRoom = (props: {
       let $ = jQuery;
       let file_data: any = $("#file-input").prop("files")[0];
 
-      // Push data to firebase storage\
+      // Push data to firebase storage if the user uploaded a file
 
-      await storageRef.put(file_data);
+      if (file_data !== undefined) {
+        await storageRef.put(file_data);
 
-      // Get the reference ad the url of the file we uploaded earlier
+        // Get the reference of the url of the file we uploaded earlier
 
-      firebase
-        .storage()
-        .refFromURL(`gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`)
-        .getDownloadURL()
-        .then((url: string) => {
+        firebase
+          .storage()
+          .refFromURL(`gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`)
+          .getDownloadURL()
+          .then((url: string) => {
+            // Get metadata of the file to check its type
 
-          // Get metadata of the file to check its type
-
-          const urlData = firebase
-            .storage()
-            .refFromURL(`gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`)
-            .getMetadata()
-            .then((urlData: any) => {
-
-              /* Send the file we uploaded to the storage back and push it in 
+            firebase
+              .storage()
+              .refFromURL(
+                `gs://schwarzchat-c3aef.appspot.com/${storageRef.name}`
+              )
+              .getMetadata()
+              .then((urlData: any) => {
+                /* Send the file we uploaded to the storage back and push it in 
                  to the messages database as a message*/
 
-              db.collection("messages").add(
-                Object({
-                  contentType: urlData.contentType,
-                  message: url,
-                  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                  uid,
-                  displayName,
-                  photoURL,
-                })
-              );
-            });
-        });
+                db.collection("messages").add(
+                  Object({
+                    fileName: file_data.name,
+                    contentType: urlData.contentType,
+                    message: url,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    uid,
+                    displayName,
+                    photoURL,
+                  })
+                );
+              });
+          });
+      }
     }
 
     // Deletes/empty out the input value after the message is sent

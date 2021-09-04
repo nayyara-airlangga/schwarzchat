@@ -1,6 +1,7 @@
 import firebase from "firebase";
 
 export default interface Message {
+  fileName: string;
   contentType: string;
   id: string;
   uid: string;
