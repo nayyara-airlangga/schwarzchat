@@ -119,6 +119,11 @@ a:hover {
   color: #f0ffffde;
 }
 
+#chat-room .text-msg {
+  word-wrap: break-word;
+  width: 70vw;
+}
+
 #chat-room img {
   border-radius: 10px;
   height: 70px;
@@ -342,6 +347,10 @@ li.received {
 }
 
 @media screen and (max-width: 540px) {
+  #chat-room img {
+    width: 55px;
+    height: 55px;
+  }
   #file-input::before {
     position: relative;
     left: 5%;
@@ -534,12 +543,12 @@ li.received {
   .received .content {
     font-size: 0.8rem;
     position: relative;
-    left: 40%;
+    left: 30%;
   }
 
   .received {
     position: relative;
-    right: 20%;
+    right: 10%;
   }
 
   .sent {
